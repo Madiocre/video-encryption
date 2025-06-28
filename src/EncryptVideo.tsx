@@ -4,8 +4,11 @@ import { open, save } from '@tauri-apps/plugin-dialog';
 // import { useNavigate } from 'react-router-dom';
 import Button from './components/ui/Button';
 import InputGroup from './components/ui/InputGroup';
-import StatusBox from './components/ui/StatusBox';
+// import StatusBox from './components/ui/StatusBox';
 import BackButton from './components/BackButton';
+import { useHelp } from './contexts/HelpContext';
+import { useEffect } from 'react';
+import { FaLock } from 'react-icons/fa';
 
 function EncryptVideo() {
   const [encryptCert, setEncryptCert] = useState('');
@@ -14,6 +17,20 @@ function EncryptVideo() {
   const [encryptOutput, setEncryptOutput] = useState('');
   const [status, setStatus] = useState('');
   // const navigate = useNavigate();
+  const { setHelpContent } = useHelp();
+
+  useEffect(() => {
+    setHelpContent(`
+      Encrypt your videos to protect them from unauthorized access.
+      
+      • Certificate: Select the certificate you generated earlier
+      • Password: Enter the password for your certificate
+      • Video: Choose the video file to encrypt
+      • Output: Specify where to save the encrypted file (.vef)
+      
+      Note: Only users with the correct access key will be able to view this video.
+    `);
+  }, [setHelpContent]);
 
   const pickFile = async (
     setter: (value: string) => void,
@@ -53,14 +70,18 @@ function EncryptVideo() {
     } catch (error) {
       setStatus(`Error: ${error}`);
     }
+    console.log(status);
   };
 
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       <BackButton />
       
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Encrypt Video</h2>
+      <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+        <div className="flex items-center mb-6">
+          <FaLock className="text-3xl text-green-500 mr-3" />
+          <h2 className="text-2xl font-bold text-gray-800">Encrypt Video</h2>
+        </div>
         
         <InputGroup
           label="Certificate (.p12)"
@@ -69,7 +90,7 @@ function EncryptVideo() {
           button={
             <Button
               onClick={() => pickFile(setEncryptCert, 'open', ['p12'])}
-              className="min-w-[100px]"
+              className="min-w-[100px] justify-center"
             >
               Browse
             </Button>
@@ -90,7 +111,7 @@ function EncryptVideo() {
           button={
             <Button
               onClick={() => pickFile(setVideoPath, 'open', ['mp4', 'avi', 'mkv'])}
-              className="min-w-[100px]"
+              className="min-w-[100px] justify-center"
             >
               Browse
             </Button>
@@ -104,7 +125,7 @@ function EncryptVideo() {
           button={
             <Button
               onClick={() => pickFile(setEncryptOutput, 'save', ['vef'])}
-              className="min-w-[100px]"
+              className="min-w-[100px] justify-center"
             >
               Browse
             </Button>
@@ -115,15 +136,15 @@ function EncryptVideo() {
           <Button
             onClick={encryptVideo}
             size="lg"
-            className="w-full max-w-xs"
+            className="w-full max-w-xs justify-center"
           >
             Encrypt Video
           </Button>
         </div>
         
-        <div className="mt-8">
+        {/* <div className="mt-8">
           <StatusBox>{status}</StatusBox>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -6,8 +6,11 @@ import { FaCopy, FaPaste } from "react-icons/fa";
 import { writeText, readText } from "@tauri-apps/plugin-clipboard-manager";
 import Button from './components/ui/Button';
 import InputGroup from './components/ui/InputGroup';
-import StatusBox from './components/ui/StatusBox';
+// import StatusBox from './components/ui/StatusBox';
 import BackButton from './components/BackButton';
+import { useHelp } from './contexts/HelpContext';
+import { useEffect } from 'react';
+import { FaHandshake } from 'react-icons/fa';
 
 function GenerateAccessKey() {
   const [accessKey, setAccessKey] = useState("");
@@ -16,6 +19,20 @@ function GenerateAccessKey() {
   const [result, setResult] = useState("");
   const [status, setStatus] = useState("");
   // const navigate = useNavigate();
+  const { setHelpContent } = useHelp();
+
+  useEffect(() => {
+    setHelpContent(`
+      Generate access keys to share encrypted videos securely.
+      
+      • Key Identifier: A unique name for this access key
+      • Certificate: Your encryption certificate
+      • Password: Certificate password
+      
+      The generated access key can be shared with users who need to view the encrypted video.
+      Each key provides access to specific videos based on your sharing settings.
+    `);
+  }, [setHelpContent]);
 
   const pickFile = async (
     setter: (value: string) => void,
@@ -42,6 +59,7 @@ function GenerateAccessKey() {
     } catch (error) {
       setStatus(`Error: ${error}`);
     }
+    console.log(status);
   };
 
   const copyAccessKey = async () => {
@@ -67,8 +85,11 @@ function GenerateAccessKey() {
     <div className="container mx-auto p-4 max-w-3xl">
       <BackButton />
       
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Generate Access Key</h2>
+      <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+        <div className="flex items-center mb-6">
+          <FaHandshake className="text-3xl text-purple-500 mr-3" />
+          <h2 className="text-2xl font-bold text-gray-800">Generate Access Key</h2>
+        </div>
         
         <InputGroup
           label="Key Identifier"
@@ -78,7 +99,7 @@ function GenerateAccessKey() {
             <Button
               onClick={pasteKeyIdentifier}
               variant="secondary"
-              className="min-w-[60px]"
+              className="min-w-[60px] justify-center"
               title="Paste from clipboard"
             >
               <FaPaste />
@@ -93,7 +114,7 @@ function GenerateAccessKey() {
           button={
             <Button
               onClick={() => pickFile(setAccessCert, ["p12"])}
-              className="min-w-[100px]"
+              className="min-w-[100px] justify-center"
             >
               Browse
             </Button>
@@ -111,7 +132,7 @@ function GenerateAccessKey() {
           <Button
             onClick={generateAccessKey}
             size="lg"
-            className="w-full max-w-xs"
+            className="w-full max-w-xs justify-center"
           >
             Generate Access Key
           </Button>
@@ -126,7 +147,7 @@ function GenerateAccessKey() {
               <Button
                 onClick={copyAccessKey}
                 variant="secondary"
-                className="min-w-[60px]"
+                className="min-w-[60px] justify-center"
                 title="Copy to clipboard"
               >
                 <FaCopy />
@@ -135,9 +156,9 @@ function GenerateAccessKey() {
           />
         </div>
         
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <StatusBox>{status}</StatusBox>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -6,12 +6,27 @@ import Button from './components/ui/Button';
 import InputGroup from './components/ui/InputGroup';
 import StatusBox from './components/ui/StatusBox';
 import BackButton from './components/BackButton';
+import { useHelp } from './contexts/HelpContext';
+import { useEffect } from 'react';
+import { FaKey } from 'react-icons/fa';
 
 function GenerateCertificate() {
   const [certPassword, setCertPassword] = useState("");
   const [certOutput, setCertOutput] = useState("");
   const [status, setStatus] = useState("");
   // const navigate = useNavigate();
+  const { setHelpContent } = useHelp();
+
+  useEffect(() => {
+    setHelpContent(`
+      Generate a digital certificate that will be used to encrypt your videos.
+      
+      • Password: Create a strong password to protect your certificate
+      • Output Path: Choose where to save your certificate (.p12 file)
+      
+      Important: Keep this certificate safe! It's required to decrypt your videos.
+    `);
+  }, [setHelpContent]);
 
   const pickFile = async (
     setter: (value: string) => void,
@@ -57,13 +72,16 @@ function GenerateCertificate() {
       setStatus(`Error: ${error}`);
     }
   };
-
+  
   return (
     <div className="container mx-auto p-4 max-w-3xl">
       <BackButton />
       
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Generate Certificate</h2>
+      <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
+        <div className="flex items-center mb-6">
+          <FaKey className="text-3xl text-blue-500 mr-3" />
+          <h2 className="text-2xl font-bold text-gray-800">Generate Certificate</h2>
+        </div>
         
         <InputGroup
           label="Password"
@@ -80,7 +98,7 @@ function GenerateCertificate() {
           button={
             <Button
               onClick={() => pickFile(setCertOutput, "save", ["p12"])}
-              className="min-w-[100px]"
+              className="min-w-[100px] justify-center"
             >
               Browse
             </Button>
@@ -91,7 +109,7 @@ function GenerateCertificate() {
           <Button
             onClick={generateCertificate}
             size="lg"
-            className="w-full max-w-xs"
+            className="w-full max-w-xs justify-center"
           >
             Generate Certificate
           </Button>

@@ -7,9 +7,10 @@ export default function BackButton() {
   return (
     <button
       onClick={() => navigate('/')}
-      className="flex items-center text-gray-600 hover:text-blue-600 transition-colors mb-6"
+      className="flex items-center text-gray-600 hover:text-blue-600 transition-colors mb-6 group"
     >
-      <FaArrowLeft className="mr-2" /> Back to Menu
+      <FaArrowLeft className="mr-2 transition-transform group-hover:-translate-x-1" /> 
+      Back to Menu
     </button>
   );
 }
