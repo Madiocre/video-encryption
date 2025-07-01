@@ -1,17 +1,32 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface HelpContextType {
-  helpContent: string;
-  setHelpContent: (content: string) => void;
+  helpContent: string | ReactNode; // Changed to support JSX
+  setHelpContent: (content: string | ReactNode) => void;
+  setStyledHelpContent: (lines: {text: string, className?: string}[]) => void;
 }
 
 const HelpContext = createContext<HelpContextType | undefined>(undefined);
 
 export function HelpProvider({ children }: { children: ReactNode }) {
-  const [helpContent, setHelpContent] = useState<string>('');
+  const [helpContent, setHelpContent] = useState<string | ReactNode>('');
+  
+  // New method to set styled content
+  const setStyledHelpContent = (lines: {text: string, className?: string}[]) => {
+    const content = (
+      <div className="space-y-2">
+        {lines.map((line, index) => (
+          <p key={index} className={line.className || 'text-gray-700'}>
+            {line.text}
+          </p>
+        ))}
+      </div>
+    );
+    setHelpContent(content);
+  };
   
   return (
-    <HelpContext.Provider value={{ helpContent, setHelpContent }}>
+    <HelpContext.Provider value={{ helpContent, setHelpContent, setStyledHelpContent }}>
       {children}
     </HelpContext.Provider>
   );

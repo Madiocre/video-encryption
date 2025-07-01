@@ -17,20 +17,18 @@ function EncryptVideo() {
   const [encryptOutput, setEncryptOutput] = useState('');
   const [status, setStatus] = useState('');
   // const navigate = useNavigate();
-  const { setHelpContent } = useHelp();
+  const { setStyledHelpContent } = useHelp();
 
   useEffect(() => {
-    setHelpContent(`
-      Encrypt your videos to protect them from unauthorized access.
-      
-      • Certificate: Select the certificate you generated earlier
-      • Password: Enter the password for your certificate
-      • Video: Choose the video file to encrypt
-      • Output: Specify where to save the encrypted file (.vef)
-      
-      Note: Only users with the correct access key will be able to view this video.
-    `);
-  }, [setHelpContent]);
+    setStyledHelpContent([
+      { text: "Encrypt your videos to protect them from unauthorized access.", className: "text-blue-600 font-semibold" },
+      { text: "• Certificate: Select any certificate you generated earlier, the resulting encrypted video will only be accessed with this certificate", className: "text-gray-700" },
+      { text: "• Password: Enter the password for your certificate", className: "text-gray-700" },
+      { text: "• Video: Choose the video file to encrypt", className: "text-gray-700" },
+      { text: "• Output: Specify where to save the encrypted file (.vef)", className: "text-gray-700" },
+      { text: "NOTE: Users will need an access key to be able to view this video, and they can only access it from the associated app on mobile.", className: "text-red-500 font-bold" }
+    ]);
+  }, []);
 
   const pickFile = async (
     setter: (value: string) => void,
@@ -43,7 +41,7 @@ function EncryptVideo() {
         selected = await open({
           filters: extensions ? [{ name: 'Files', extensions }] : undefined,
         });
-      } else {
+      } else { 
         selected = await save({
           filters: extensions ? [{ name: 'Files', extensions }] : undefined,
           defaultPath: 'encryptVid.vef',

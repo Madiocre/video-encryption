@@ -9,24 +9,23 @@ import BackButton from './components/BackButton';
 import { useHelp } from './contexts/HelpContext';
 import { useEffect } from 'react';
 import { FaKey } from 'react-icons/fa';
+import { IconContext } from "react-icons";
 
 function GenerateCertificate() {
   const [certPassword, setCertPassword] = useState("");
   const [certOutput, setCertOutput] = useState("");
   const [status, setStatus] = useState("");
   // const navigate = useNavigate();
-  const { setHelpContent } = useHelp();
+const { setStyledHelpContent } = useHelp();
 
-  useEffect(() => {
-    setHelpContent(`
-      Generate a digital certificate that will be used to encrypt your videos.
-      
-      • Password: Create a strong password to protect your certificate
-      • Output Path: Choose where to save your certificate (.p12 file)
-      
-      Important: Keep this certificate safe! It's required to decrypt your videos.
-    `);
-  }, [setHelpContent]);
+useEffect(() => {
+  setStyledHelpContent([
+    { text: "Generate a digital certificate that will be used to encrypt your videos.", className: "text-blue-600 font-semibold" },
+    { text: "• Password: Create a strong password to protect your certificate, this will be needed for both encryption and giving other people access to your videos", className: "text-gray-700" },
+    { text: "• Output Path: Choose where to save your certificate (.p12 file)", className: "text-gray-700" },
+    { text: "IMPORTANT: Keep this certificate safe! It's required to decrypt your videos.", className: "text-red-500 font-bold" }
+  ]);
+}, []);
 
   const pickFile = async (
     setter: (value: string) => void,
@@ -79,7 +78,11 @@ function GenerateCertificate() {
       
       <div className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md">
         <div className="flex items-center mb-6">
-          <FaKey className="text-3xl text-blue-500 mr-3" />
+          <IconContext.Provider value={{ color: "darkgoldenrod" }}>
+            <div className="w-12 h-12 flex items-center justify-center mr-4">
+              <FaKey className="text-2xl text-blue-500 group-hover:text-blue-400 transition-colors group-hover-animate-key" />
+            </div>
+          </IconContext.Provider>
           <h2 className="text-2xl font-bold text-gray-800">Generate Certificate</h2>
         </div>
         

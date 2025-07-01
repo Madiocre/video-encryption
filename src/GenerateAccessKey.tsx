@@ -19,21 +19,18 @@ function GenerateAccessKey() {
   const [result, setResult] = useState("");
   const [status, setStatus] = useState("");
   // const navigate = useNavigate();
-  const { setHelpContent } = useHelp();
+  const { setStyledHelpContent } = useHelp();
 
   useEffect(() => {
-    setHelpContent(`
-      Generate access keys to share encrypted videos securely.
-      
-      • Key Identifier: A unique name for this access key
-      • Certificate: Your encryption certificate
-      • Password: Certificate password
-      
-      The generated access key can be shared with users who need to view the encrypted video.
-      Each key provides access to specific videos based on your sharing settings.
-    `);
-  }, [setHelpContent]);
-
+    setStyledHelpContent([
+      { text: "Generate access keys to share encrypted videos securely.", className: "text-blue-600 font-semibold" },
+      { text: "• Key Identifier: This will be sent to you by the person requesting access to the video", className: "text-gray-700" },
+      { text: "• Certificate: Your encryption certificate", className: "text-gray-700" },
+      { text: "• Password: Certificate password", className: "text-gray-700" },
+      { text: "• Generated Access Key: You send this back to the user to grant them permission to view the video", className: "text-gray-700" },
+      { text: "NOTE: This gives the ability to open any video that is stored on the certificate, they can only view the video file if sent to them.", className: "text-red-500 font-bold" }
+    ]);
+  }, []);
   const pickFile = async (
     setter: (value: string) => void,
     extensions?: string[]

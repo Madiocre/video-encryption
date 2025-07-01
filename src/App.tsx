@@ -14,7 +14,7 @@ function App() {
 
   return (
     <HelpProvider>
-      <div className="min-h-screen">
+      <div className=" flex items-center justify-center min-h-[650px] min-w-[800px]">
         {/* Help System */}
         <HelpButton onClick={() => setIsHelpOpen(true)} />
         <HelpModal 

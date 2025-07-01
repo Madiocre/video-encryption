@@ -12,9 +12,12 @@
   "app": {
     "windows": [
       {
-        "title": "video-encryption",
-        "width": 800,
-        "height": 600
+      "title": "Video Encryption Tool",
+      "width": 800,
+      "height": 650,
+      "maximizable": false,
+      "minimizable": false,
+      "resizable": false
       }
     ],
     "security": {

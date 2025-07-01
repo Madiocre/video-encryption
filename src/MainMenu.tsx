@@ -4,19 +4,20 @@ import { useHelp } from './contexts/HelpContext';
 import { useEffect } from 'react';
 import { FaKey, FaLock, FaHandshake } from 'react-icons/fa';
 import { invoke } from '@tauri-apps/api/core';
+import { IconContext } from "react-icons";
+
 
 function MainMenu() {
-  const { setHelpContent } = useHelp();
+  const { setStyledHelpContent } = useHelp();
 
   useEffect(() => {
-    setHelpContent(`
-      Welcome to the Video Encryption Tool! This application helps you secure your videos with end-to-end encryption.
-      
-      • Generate Certificate: Create a digital certificate for encryption
-      • Encrypt Video: Protect your videos using your certificate
-      • Generate Access Key: Create keys to share access to encrypted videos
-    `);
-  }, [setHelpContent]);
+    setStyledHelpContent([
+      { text: "Welcome to the Video Encryption Tool! This application helps you secure your videos with end-to-end encryption.", className: "text-blue-600 font-semibold" },
+      { text: "• Generate Certificate: Create a digital certificate for encryption, you may create as many as you want and encrypt videos relating to them.", className: "text-gray-700" },
+      { text: "• Encrypt Video: Protects your videos using your certificate, making it only accessible using the mobile app after confirmation.", className: "text-gray-700" },
+      { text: "• Generate Access Key: Create keys to share access to encrypted videos.", className: "text-gray-700" },
+    ]);
+  }, []);
 
   return (
     <div className="container mx-auto p-4 max-w-xl"> {/* Increased to max-w-xl */}
@@ -40,9 +41,11 @@ function MainMenu() {
         <div className="flex flex-col gap-5"> {/* Increased gap */}
           <Link to="/generate-certificate">
             <Button size="lg" className="w-full flex items-center group">
-              <div className="w-12 h-12 flex items-center justify-center mr-4">
-                <FaKey className="text-2xl text-blue-500 group-hover:text-blue-400 transition-colors group-hover-animate-key" />
-              </div>
+              <IconContext.Provider value={{ color: "darkgoldenrod" }}>
+                <div className="w-12 h-12 flex items-center justify-center mr-4">
+                  <FaKey className="text-2xl text-blue-500 group-hover:text-blue-400 transition-colors group-hover-animate-key" />
+                </div>
+              </IconContext.Provider>
               <span className="text-lg font-medium">Generate Certificate</span>
             </Button>
           </Link>
