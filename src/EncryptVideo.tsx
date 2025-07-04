@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 import { open, save } from '@tauri-apps/plugin-dialog';
-// import { useNavigate } from 'react-router-dom';
 import Button from './components/ui/Button';
 import InputGroup from './components/ui/InputGroup';
-// import StatusBox from './components/ui/StatusBox';
+import StatusBox from './components/ui/StatusBox';
 import BackButton from './components/BackButton';
 import { useHelp } from './contexts/HelpContext';
 import { useEffect } from 'react';
@@ -16,7 +15,6 @@ function EncryptVideo() {
   const [videoPath, setVideoPath] = useState('');
   const [encryptOutput, setEncryptOutput] = useState('');
   const [status, setStatus] = useState('');
-  // const navigate = useNavigate();
   const { setStyledHelpContent } = useHelp();
 
   useEffect(() => {
@@ -140,9 +138,9 @@ function EncryptVideo() {
           </Button>
         </div>
         
-        {/* <div className="mt-8">
+        <div className="mt-8">
           <StatusBox>{status}</StatusBox>
-        </div> */}
+        </div>
       </div>
     </div>
   );
